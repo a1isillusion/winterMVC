@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import Annotation.RequestMapping;
 import Factory.WinterFactory;
+import Interceptor.Interceptor;
 import lifecycle.InitializingBean;
 
 public class DefaultHandlerMapping implements HandlerMapping,InitializingBean {
@@ -35,6 +36,21 @@ public class DefaultHandlerMapping implements HandlerMapping,InitializingBean {
 		}
 	}
     public HandlerExecutionChain getHandler(HttpServletRequest request) {
-    	return new HandlerExecutionChain();
+    	HandlerExecutionChain chain=new HandlerExecutionChain();
+    	String uri=parseUri(request.getRequestURI());
+    	RequestMappingInfo info=urlMaps.get(uri);
+    	HandlerMethod handlerMethod=handlerMethods.get(info);
+    	chain.setHandlerMethod(handlerMethod);
+		HashMap<String, Object> beans=WinterFactory.getSingletonBeans();
+		for(String key:beans.keySet()) {
+			Object bean=beans.get(key);
+			if(bean instanceof Interceptor) {
+				chain.setInterceptor((Interceptor)bean);
+			}
+		}
+    	return chain;
+    }
+    public String parseUri(String uri){
+    	return uri.substring(uri.indexOf("/"), uri.length());
     }
 }
