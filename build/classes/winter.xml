@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
      <component-scan base-package="winterMVC" />
+     <bean name="handlerAdapter" class="HandlerAdapter.DefaultHandlerAdapter"></bean>
+     <bean name="handlerMapping" class="HandlerMapping.DefaultHandlerMapping"></bean>
 </beans>
