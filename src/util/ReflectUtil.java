@@ -22,8 +22,8 @@ public class ReflectUtil {
         final String className = method.getDeclaringClass().getName();
         final boolean isStatic = Modifier.isStatic(method.getModifiers());
         final String[] methodParametersNames = new String[methodParameterCount];
-
-        ClassReader cr = new ClassReader(className);
+        System.out.println("className:"+className);
+        ClassReader cr = new ClassReader(ReflectUtil.class.getClassLoader().getResourceAsStream(className.replace('.', '/') + ".class"));
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         cr.accept(new ClassAdapter(cw) {
             public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {

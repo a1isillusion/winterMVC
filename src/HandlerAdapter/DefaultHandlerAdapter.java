@@ -40,12 +40,12 @@ public class DefaultHandlerAdapter implements HandlerAdapter,InitializingBean{
     	ModelAndView mav=new ModelAndView();
     	for(int i=0;i<parameters.length;i++) {
     		ArgumentResolver argumentResolver=selectArgumentResolver(parameters[i]);
-    		params[i]=argumentResolver.resolveArgument(parameters[i], parametersName[i], request, mav);
+    		params[i]=argumentResolver.resolveArgument(parameters[i], parametersName[i], request,response, mav);
     	}
     	Method method=handlerMethod.method;
     	Object returnValue=method.invoke(handlerMethod.bean,params);
     	ReturnValueHandler returnValueHandler=selectReturnValueHandler(returnType);
-    	returnValueHandler.handleReturnValue(returnValue, returnType, request, mav);
+    	returnValueHandler.handleReturnValue(returnValue, returnType, request, response, mav);
 		return mav;
     	
     }

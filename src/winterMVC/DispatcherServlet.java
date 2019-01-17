@@ -52,8 +52,12 @@ public class DispatcherServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getRequestURI());
-
+		//response.getWriter().append("Served at: ").append(request.getRequestURI());
+		try {
+			doDispatch(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

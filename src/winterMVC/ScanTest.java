@@ -8,7 +8,7 @@ import annotation.Component;
 public class ScanTest {
 public String i="≤‚ ‘11";
 @RequestMapping(path="/show")
-public void show(String a,String b) {
-	System.out.println(a+b);
+public void show(Float a,Integer b) {
+	System.out.println("show!"+a+b);
 }
 }
