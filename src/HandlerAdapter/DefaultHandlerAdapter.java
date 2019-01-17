@@ -26,6 +26,10 @@ public class DefaultHandlerAdapter implements HandlerAdapter,InitializingBean{
 		returnValueHandlers.add(new DefaultReturnValueHandler());
 	}
     public ModelAndView handle(HttpServletRequest request,HttpServletResponse response,HandlerMethod handlerMethod) {
+    	return invokeHandlerMethod(request, response, handlerMethod);
+    }
+    public ModelAndView invokeHandlerMethod(HttpServletRequest request,HttpServletResponse response,HandlerMethod handlerMethod) {
     	return new ModelAndView();
     }
+    
 }
