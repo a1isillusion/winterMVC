@@ -12,8 +12,8 @@ import Interceptor.Interceptor;
 import lifecycle.InitializingBean;
 
 public class DefaultHandlerMapping implements HandlerMapping,InitializingBean {
-    Map<String, RequestMappingInfo> urlMaps;
-    Map<RequestMappingInfo, HandlerMethod> handlerMethods;
+    public Map<String, RequestMappingInfo> urlMaps;
+    public Map<RequestMappingInfo, HandlerMethod> handlerMethods;
 	@Override
 	public void afterPropertiesSet() {
 		urlMaps=new HashMap<>();

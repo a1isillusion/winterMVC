@@ -3,4 +3,8 @@
      <component-scan base-package="winterMVC" />
      <bean name="handlerAdapter" class="HandlerAdapter.DefaultHandlerAdapter"></bean>
      <bean name="handlerMapping" class="HandlerMapping.DefaultHandlerMapping"></bean>
+     <bean name="viewResolver" class="ViewResolver.DefaultViewResolver">
+           <property name="prefix" value="WEB-INF/jsp/"></property>
+           <property name="suffix" value=".jsp"></property>
+     </bean>
 </beans>

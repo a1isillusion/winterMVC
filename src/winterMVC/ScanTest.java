@@ -1,11 +1,14 @@
 package winterMVC;
 
+import Annotation.RequestMapping;
 import annotation.Component;
 
 @Component
+@RequestMapping(path="/test")
 public class ScanTest {
 public String i="≤‚ ‘11";
-public void show(String ppp11,String zz) {
-	System.out.println(ppp11);
+@RequestMapping(path="/show")
+public void show(String a,String b) {
+	System.out.println(a+b);
 }
 }

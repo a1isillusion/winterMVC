@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import Factory.ApplicationContext;
 import Factory.WinterFactory;
 import HandlerAdapter.HandlerAdapter;
+import HandlerMapping.HandlerExecutionChain;
 import HandlerMapping.HandlerMapping;
+import Interceptor.Interceptor;
+import ModelAndView.ModelAndView;
+import ViewResolver.ViewResolver;
 
 /**
  * winterMVC∫À–ƒ¿‡¿‡
@@ -22,6 +26,7 @@ public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private HandlerMapping handlerMapping;
     private HandlerAdapter handlerAdapter;
+    private ViewResolver viewResolver;
     public DispatcherServlet() {
         super();
     }
@@ -38,16 +43,38 @@ public class DispatcherServlet extends HttpServlet {
 				System.out.println("adapter");
 				handlerAdapter=(HandlerAdapter)bean;
 			}
+			if(bean instanceof ViewResolver) {
+				System.out.println("view");
+				viewResolver=(ViewResolver)bean;
+			}
 		}
      
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getRequestURI());
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		try {
+			doDispatch(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
-
+    public void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    	HandlerExecutionChain chain=handlerMapping.getHandler(request);
+    	for(Interceptor interceptor:chain.interceptors) {//prehandle
+    		interceptor.preHandle(request, response, chain.handlerMethod);
+    	}
+    	ModelAndView mav=handlerAdapter.handle(request, response, chain.handlerMethod);
+    	for(Interceptor interceptor:chain.interceptors) {//posthandle
+    		interceptor.postHandle(request, response, mav);
+    	}
+    	viewResolver.route(mav);
+    	for(Interceptor interceptor:chain.interceptors) {//aftercompletion
+    		interceptor.afterCompletion(request, response, chain.handlerMethod,null);
+    	}   	
+    }
 }

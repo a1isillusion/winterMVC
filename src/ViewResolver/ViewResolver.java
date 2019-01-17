@@ -1,5 +1,7 @@
 package ViewResolver;
 
-public interface ViewResolver {
+import ModelAndView.ModelAndView;
 
+public interface ViewResolver {
+public void route(ModelAndView mav);
 }
