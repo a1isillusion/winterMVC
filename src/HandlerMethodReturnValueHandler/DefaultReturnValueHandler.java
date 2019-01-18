@@ -23,7 +23,8 @@ public class DefaultReturnValueHandler implements ReturnValueHandler {
         	}else {
 				mav.setViewName((String)returnValue);
 			}        	
-        }
+        }else if(returnType.equals(ModelAndView.class)){
+			mav.change((ModelAndView)returnValue);
+		}
 	}
-
 }

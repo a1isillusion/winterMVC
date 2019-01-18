@@ -36,4 +36,8 @@ public boolean getNeedResolve() {
 public Map<String,Object> getParams(){
 	return model.params;
 }
+public void change(ModelAndView otherMav) {
+	model=otherMav.model;
+	view=otherMav.view;
+}
 }

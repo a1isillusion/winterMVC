@@ -1,7 +1,6 @@
 package winterMVC;
 
 import Annotation.RequestMapping;
-import Annotation.ResponseBody;
 import ModelAndView.ModelAndView;
 import annotation.Component;
 
@@ -11,8 +10,10 @@ public class ScanTest {
 public String i="≤‚ ‘11";
 public int z=1;
 @RequestMapping(path="/show")
-public String show(ModelAndView mav) {
+public ModelAndView show() {
+	ModelAndView mav=new ModelAndView();
 	mav.setAttribute("love", "me");
-	return "view.jsp";
+	mav.setViewName("view.jsp");
+	return mav;
 }
 }

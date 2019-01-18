@@ -8,5 +8,6 @@
 </head>
 <body>
 view
+love: <%=request.getAttribute("love") %>
 </body>
 </html>
