@@ -1,5 +1,7 @@
 package ModelAndView;
 
+import java.util.Map;
+
 public class ModelAndView {
 public Model model;
 public View view;
@@ -30,5 +32,8 @@ public void setNeedResolve(boolean b) {
 }
 public boolean getNeedResolve() {
 	return view.getNeedResolve();
+}
+public Map<String,Object> getParams(){
+	return model.params;
 }
 }
