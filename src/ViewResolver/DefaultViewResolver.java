@@ -16,7 +16,6 @@ public void route(HttpServletRequest request,HttpServletResponse response,ModelA
 			viewName="/"+viewName;
 		}
 		for(String key:mav.getParams().keySet()) {
-			System.out.println("key:"+key+" value:"+mav.getParams().get(key));
 			request.setAttribute(key, mav.getParams().get(key));
 		}
 		request.getRequestDispatcher(viewName).forward(request, response);
