@@ -1,6 +1,5 @@
 package HandlerMapping;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +10,6 @@ import Annotation.RequestMapping;
 import Factory.WinterFactory;
 import Interceptor.Interceptor;
 import lifecycle.InitializingBean;
-import util.ReflectUtil;
 
 public class DefaultHandlerMapping implements HandlerMapping,InitializingBean {
     public Map<String, RequestMappingInfo> urlMaps;
@@ -32,12 +30,6 @@ public class DefaultHandlerMapping implements HandlerMapping,InitializingBean {
 						HandlerMethod handlerMethod=HandlerMethod.create(bean, method);
 						urlMaps.put(info.path, info);
 						handlerMethods.put(info, handlerMethod);
-						try {
-							for(String i:ReflectUtil.getMethodParamNames(method))System.out.println("fanshe:"+i);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 					}
 				}
 			}
@@ -48,7 +40,6 @@ public class DefaultHandlerMapping implements HandlerMapping,InitializingBean {
     	String uri=parseUri(request.getRequestURI());
     	RequestMappingInfo info=urlMaps.get(uri);
     	HandlerMethod handlerMethod=handlerMethods.get(info);
-    	System.out.println("chain:"+handlerMethod.method.getName());
     	chain.setHandlerMethod(handlerMethod);
 		HashMap<String, Object> beans=WinterFactory.getSingletonBeans();
 		for(String key:beans.keySet()) {

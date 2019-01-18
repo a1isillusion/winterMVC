@@ -9,19 +9,21 @@ public class DefaultReturnValueHandler implements ReturnValueHandler {
 
 	@Override
 	public boolean supportsReturnValue(Class<?> returnType) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public void handleReturnValue(Object returnValue, Class<?> returnType, HttpServletRequest request,
 			HttpServletResponse response, ModelAndView mav) throws Exception {
-		// TODO Auto-generated method stub
         if(returnType.equals(String.class)) {
-        	mav.setViewName((String)returnValue);
+        	if(returnValue.toString().contains(":/")) {
+        		String[] splitString=returnValue.toString().split(":/");
+        		mav.setViewType(splitString[0]);
+        		mav.setViewName(splitString[1]);
+        	}else {
+				mav.setViewName((String)returnValue);
+			}        	
         }
 	}
-
-
 
 }

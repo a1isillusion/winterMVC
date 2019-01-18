@@ -8,10 +8,10 @@ import annotation.Component;
 @RequestMapping(path="/test")
 public class ScanTest {
 public String i="≤‚ ‘11";
+public int z=1;
 @RequestMapping(path="/show")
-@ResponseBody
 public String show(Float a,Integer b) {
 	System.out.println("show!"+a+b);
-	return "show!"+a+b;
+	return "view.jsp";
 }
 }

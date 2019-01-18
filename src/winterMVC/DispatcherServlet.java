@@ -36,15 +36,12 @@ public class DispatcherServlet extends HttpServlet {
 		for(String key:beans.keySet()) {
 			Object bean=beans.get(key);
 			if(bean instanceof HandlerMapping) {
-				System.out.println("mapping");
 				handlerMapping=(HandlerMapping)bean;
 			}
 			if(bean instanceof HandlerAdapter) {
-				System.out.println("adapter");
 				handlerAdapter=(HandlerAdapter)bean;
 			}
 			if(bean instanceof ViewResolver) {
-				System.out.println("view");
 				viewResolver=(ViewResolver)bean;
 			}
 		}
@@ -75,7 +72,9 @@ public class DispatcherServlet extends HttpServlet {
     	for(Interceptor interceptor:chain.interceptors) {//posthandle
     		interceptor.postHandle(request, response, mav);
     	}
-    	viewResolver.route(mav);
+    	if(mav.getNeedResolve()) {
+    	    	viewResolver.route(request,response,mav);	
+    	}
     	for(Interceptor interceptor:chain.interceptors) {//aftercompletion
     		interceptor.afterCompletion(request, response, chain.handlerMethod,null);
     	}   	

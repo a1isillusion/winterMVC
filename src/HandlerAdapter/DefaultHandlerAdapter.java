@@ -24,7 +24,6 @@ public class DefaultHandlerAdapter implements HandlerAdapter,InitializingBean{
     public List<ReturnValueHandler> returnValueHandlers;
 	@Override
 	public void afterPropertiesSet() {
-		System.out.println("handleradapter init");
 		argumentResolvers=new ArrayList<>();
 		returnValueHandlers=new ArrayList<>();
 		argumentResolvers.add(new DefaultArgumentResolver());
@@ -48,7 +47,7 @@ public class DefaultHandlerAdapter implements HandlerAdapter,InitializingBean{
     	Method method=handlerMethod.method;
     	Object returnValue=method.invoke(handlerMethod.bean,params);
     	if(returnValue!=null) {
-    	ReturnValueHandler returnValueHandler=selectReturnValueHandler(returnType,method);
+    	ReturnValueHandler returnValueHandler=selectReturnValueHandler(returnType,method,mav);
     	returnValueHandler.handleReturnValue(returnValue, returnType, request, response, mav);
     	}	
 		return mav;
@@ -62,8 +61,9 @@ public class DefaultHandlerAdapter implements HandlerAdapter,InitializingBean{
     	}
     	return null;
     }
-    public ReturnValueHandler selectReturnValueHandler(Class<?> returnType,Method method) {
+    public ReturnValueHandler selectReturnValueHandler(Class<?> returnType,Method method,ModelAndView mav) {
     	if(method.isAnnotationPresent(ResponseBody.class)) {
+    		mav.setNeedResolve(false);
     		return returnValueHandlers.get(0);
     	}
     	for(ReturnValueHandler returnValueHandler:returnValueHandlers) {

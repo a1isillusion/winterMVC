@@ -25,4 +25,10 @@ public void setViewType(String type) {
 public String getViewType() {
 	return view.getType();
 }
+public void setNeedResolve(boolean b) {
+	view.setNeedResolve(b);
+}
+public boolean getNeedResolve() {
+	return view.getNeedResolve();
+}
 }
