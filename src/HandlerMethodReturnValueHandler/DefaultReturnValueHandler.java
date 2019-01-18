@@ -14,10 +14,12 @@ public class DefaultReturnValueHandler implements ReturnValueHandler {
 	}
 
 	@Override
-	public Object handleReturnValue(Object returnValue, Class<?> returnType, HttpServletRequest request,
+	public void handleReturnValue(Object returnValue, Class<?> returnType, HttpServletRequest request,
 			HttpServletResponse response, ModelAndView mav) {
 		// TODO Auto-generated method stub
-		return null;
+        if(returnType.equals(String.class)) {
+        	mav.setViewName((String)returnValue);
+        }
 	}
 
 
