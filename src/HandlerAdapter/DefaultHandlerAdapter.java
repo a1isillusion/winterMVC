@@ -8,11 +8,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import Annotation.ResponseBody;
 import HandlerMapping.HandlerMethod;
 import HandlerMethodArgumentResolver.ArgumentResolver;
 import HandlerMethodArgumentResolver.DefaultArgumentResolver;
 import HandlerMethodReturnValueHandler.DefaultReturnValueHandler;
+import HandlerMethodReturnValueHandler.ResponseBodyReturnValueHandler;
 import HandlerMethodReturnValueHandler.ReturnValueHandler;
 import ModelAndView.ModelAndView;
 import lifecycle.InitializingBean;
@@ -27,6 +28,8 @@ public class DefaultHandlerAdapter implements HandlerAdapter,InitializingBean{
 		argumentResolvers=new ArrayList<>();
 		returnValueHandlers=new ArrayList<>();
 		argumentResolvers.add(new DefaultArgumentResolver());
+		
+		returnValueHandlers.add(new ResponseBodyReturnValueHandler());
 		returnValueHandlers.add(new DefaultReturnValueHandler());
 	}
     public ModelAndView handle(HttpServletRequest request,HttpServletResponse response,HandlerMethod handlerMethod) throws Exception {
@@ -44,8 +47,10 @@ public class DefaultHandlerAdapter implements HandlerAdapter,InitializingBean{
     	}
     	Method method=handlerMethod.method;
     	Object returnValue=method.invoke(handlerMethod.bean,params);
-    	ReturnValueHandler returnValueHandler=selectReturnValueHandler(returnType);
+    	if(returnValue!=null) {
+    	ReturnValueHandler returnValueHandler=selectReturnValueHandler(returnType,method);
     	returnValueHandler.handleReturnValue(returnValue, returnType, request, response, mav);
+    	}	
 		return mav;
     	
     }
@@ -57,7 +62,10 @@ public class DefaultHandlerAdapter implements HandlerAdapter,InitializingBean{
     	}
     	return null;
     }
-    public ReturnValueHandler selectReturnValueHandler(Class<?> returnType) {
+    public ReturnValueHandler selectReturnValueHandler(Class<?> returnType,Method method) {
+    	if(method.isAnnotationPresent(ResponseBody.class)) {
+    		return returnValueHandlers.get(0);
+    	}
     	for(ReturnValueHandler returnValueHandler:returnValueHandlers) {
     		if(returnValueHandler.supportsReturnValue(returnType)) {
     			return returnValueHandler;

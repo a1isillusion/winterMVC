@@ -1,6 +1,7 @@
 package winterMVC;
 
 import Annotation.RequestMapping;
+import Annotation.ResponseBody;
 import annotation.Component;
 
 @Component
@@ -8,7 +9,9 @@ import annotation.Component;
 public class ScanTest {
 public String i="≤‚ ‘11";
 @RequestMapping(path="/show")
-public void show(Float a,Integer b) {
+@ResponseBody
+public String show(Float a,Integer b) {
 	System.out.println("show!"+a+b);
+	return "show!"+a+b;
 }
 }

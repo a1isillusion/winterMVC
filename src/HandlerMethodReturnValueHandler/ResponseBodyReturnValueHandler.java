@@ -3,25 +3,26 @@ package HandlerMethodReturnValueHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+
 import ModelAndView.ModelAndView;
 
-public class DefaultReturnValueHandler implements ReturnValueHandler {
+public class ResponseBodyReturnValueHandler implements ReturnValueHandler{
 
 	@Override
 	public boolean supportsReturnValue(Class<?> returnType) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void handleReturnValue(Object returnValue, Class<?> returnType, HttpServletRequest request,
 			HttpServletResponse response, ModelAndView mav) throws Exception {
-		// TODO Auto-generated method stub
-        if(returnType.equals(String.class)) {
-        	mav.setViewName((String)returnValue);
-        }
+		    if(returnType.equals(String.class)) {
+		    	response.getWriter().append(returnValue.toString());
+		    }
+		    else {
+				response.getWriter().append(JSON.toJSONString(returnValue));	
+			}				
 	}
-
-
 
 }
