@@ -13,7 +13,7 @@ public int z=1;
 public ModelAndView show() {
 	ModelAndView mav=new ModelAndView();
 	mav.setAttribute("love", "me");
-	mav.setViewName("view.jsp");
+	mav.setViewName("view");
 	return mav;
 }
 }

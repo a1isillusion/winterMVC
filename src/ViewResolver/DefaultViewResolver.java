@@ -18,9 +18,11 @@ public void route(HttpServletRequest request,HttpServletResponse response,ModelA
 		for(String key:mav.getParams().keySet()) {
 			request.setAttribute(key, mav.getParams().get(key));
 		}
+		viewName=prefix+viewName+suffix;
 		request.getRequestDispatcher(viewName).forward(request, response);
 	}else if (mav.getViewType().equals("redirect")) {
 		String viewName="/"+request.getContextPath().split("/")[1]+"/"+mav.getViewName();
+		viewName=prefix+viewName+suffix;
 		response.setContentType("text/html; charset=UTF-8");
         response.sendRedirect(viewName);
 	}
