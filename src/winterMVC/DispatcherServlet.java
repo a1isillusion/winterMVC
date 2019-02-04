@@ -24,31 +24,34 @@ import ViewResolver.ViewResolver;
 @WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private HandlerMapping handlerMapping;
-    private HandlerAdapter handlerAdapter;
-    private ViewResolver viewResolver;
-    public DispatcherServlet() {
-        super();
-    }
-    public void init() throws ServletException {
-     ApplicationContext.init();//初始化winter
-     HashMap<String, Object> beans=WinterFactory.getSingletonBeans();
-		for(String key:beans.keySet()) {
-			Object bean=beans.get(key);
-			if(bean instanceof HandlerMapping) {
-				handlerMapping=(HandlerMapping)bean;
+	private HandlerMapping handlerMapping;
+	private HandlerAdapter handlerAdapter;
+	private ViewResolver viewResolver;
+
+	public DispatcherServlet() {
+		super();
+	}
+
+	public void init() throws ServletException {
+		ApplicationContext.init();// 初始化winter
+		HashMap<String, Object> beans = WinterFactory.getSingletonBeans();
+		for (String key : beans.keySet()) {
+			Object bean = beans.get(key);
+			if (bean instanceof HandlerMapping) {
+				handlerMapping = (HandlerMapping) bean;
 			}
-			if(bean instanceof HandlerAdapter) {
-				handlerAdapter=(HandlerAdapter)bean;
+			if (bean instanceof HandlerAdapter) {
+				handlerAdapter = (HandlerAdapter) bean;
 			}
-			if(bean instanceof ViewResolver) {
-				viewResolver=(ViewResolver)bean;
+			if (bean instanceof ViewResolver) {
+				viewResolver = (ViewResolver) bean;
 			}
 		}
-     
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			doDispatch(request, response);
 		} catch (Exception e) {
@@ -56,27 +59,29 @@ public class DispatcherServlet extends HttpServlet {
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			doDispatch(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-    public void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception{
-    	HandlerExecutionChain chain=handlerMapping.getHandler(request);
-    	for(Interceptor interceptor:chain.interceptors) {//prehandle
-    		interceptor.preHandle(request, response, chain.handlerMethod);
-    	}
-    	ModelAndView mav=handlerAdapter.handle(request, response, chain.handlerMethod);
-    	for(Interceptor interceptor:chain.interceptors) {//posthandle
-    		interceptor.postHandle(request, response, mav);
-    	}
-    	if(mav.getNeedResolve()) {
-    	    	viewResolver.route(request,response,mav);	
-    	}
-    	for(Interceptor interceptor:chain.interceptors) {//aftercompletion
-    		interceptor.afterCompletion(request, response, chain.handlerMethod,null);
-    	}   	
-    }
+
+	public void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HandlerExecutionChain chain = handlerMapping.getHandler(request);
+		for (Interceptor interceptor : chain.interceptors) {// prehandle
+			interceptor.preHandle(request, response, chain.handlerMethod);
+		}
+		ModelAndView mav = handlerAdapter.handle(request, response, chain.handlerMethod);
+		for (Interceptor interceptor : chain.interceptors) {// posthandle
+			interceptor.postHandle(request, response, mav);
+		}
+		if (mav.getNeedResolve()) {
+			viewResolver.route(request, response, mav);
+		}
+		for (Interceptor interceptor : chain.interceptors) {// aftercompletion
+			interceptor.afterCompletion(request, response, chain.handlerMethod, null);
+		}
+	}
 }

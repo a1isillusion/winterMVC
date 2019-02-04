@@ -18,78 +18,78 @@ public class DefaultArgumentResolver implements ArgumentResolver {
 
 	@Override
 	public Object resolveArgument(Parameter parameter, String parameterName, HttpServletRequest request,
-			HttpServletResponse response,ModelAndView mav) {
-		//web类
-		if(parameter.getType().equals(HttpServletRequest.class)) {
+			HttpServletResponse response, ModelAndView mav) {
+		// web类
+		if (parameter.getType().equals(HttpServletRequest.class)) {
 			return request;
 		}
-		if(parameter.getType().equals(HttpServletResponse.class)) {
+		if (parameter.getType().equals(HttpServletResponse.class)) {
 			return response;
 		}
-		if(parameter.getType().equals(HttpSession.class)) {
+		if (parameter.getType().equals(HttpSession.class)) {
 			return request.getSession();
 		}
-		if(parameter.getType().equals(Model.class)) {
+		if (parameter.getType().equals(Model.class)) {
 			return mav.model;
 		}
-		if(parameter.getType().equals(ModelAndView.class)) {
+		if (parameter.getType().equals(ModelAndView.class)) {
 			return mav;
 		}
-		
-		//基本类型
-		if(parameter.getType().equals(String.class)) {
+
+		// 基本类型
+		if (parameter.getType().equals(String.class)) {
 			return request.getParameter(parameterName);
 		}
-		if(parameter.getType().equals(float.class)) {
+		if (parameter.getType().equals(float.class)) {
 			return new Float(request.getParameter(parameterName)).floatValue();
 		}
-		if(parameter.getType().equals(Float.class)) {
+		if (parameter.getType().equals(Float.class)) {
 			return new Float(request.getParameter(parameterName));
 		}
-		if(parameter.getType().equals(double.class)) {
+		if (parameter.getType().equals(double.class)) {
 			return new Double(request.getParameter(parameterName)).doubleValue();
 		}
-		if(parameter.getType().equals(Double.class)) {
+		if (parameter.getType().equals(Double.class)) {
 			return new Double(request.getParameter(parameterName));
 		}
-		if(parameter.getType().equals(int.class)) {
+		if (parameter.getType().equals(int.class)) {
 			return new Integer(request.getParameter(parameterName)).intValue();
 		}
-		if(parameter.getType().equals(Integer.class)) {
+		if (parameter.getType().equals(Integer.class)) {
 			return new Integer(request.getParameter(parameterName));
 		}
-		if(parameter.getType().equals(char.class)) {
+		if (parameter.getType().equals(char.class)) {
 			return request.getParameter(parameterName).charAt(0);
 		}
-		if(parameter.getType().equals(Character.class)) {
+		if (parameter.getType().equals(Character.class)) {
 			return new Character(request.getParameter(parameterName).charAt(0));
 		}
-		if(parameter.getType().equals(boolean.class)) {
+		if (parameter.getType().equals(boolean.class)) {
 			return new Boolean(request.getParameter(parameterName)).booleanValue();
 		}
-		if(parameter.getType().equals(Boolean.class)) {
+		if (parameter.getType().equals(Boolean.class)) {
 			return new Boolean(request.getParameter(parameterName));
 		}
-		if(parameter.getType().equals(long.class)) {
+		if (parameter.getType().equals(long.class)) {
 			return new Long(request.getParameter(parameterName)).longValue();
 		}
-		if(parameter.getType().equals(Long.class)) {
+		if (parameter.getType().equals(Long.class)) {
 			return new Long(request.getParameter(parameterName));
-		}	
-		if(parameter.getType().equals(short.class)) {
+		}
+		if (parameter.getType().equals(short.class)) {
 			return new Short(request.getParameter(parameterName)).shortValue();
 		}
-		if(parameter.getType().equals(Short.class)) {
+		if (parameter.getType().equals(Short.class)) {
 			return new Short(request.getParameter(parameterName));
 		}
-		if(parameter.getType().equals(byte.class)) {
+		if (parameter.getType().equals(byte.class)) {
 			return new Byte(request.getParameter(parameterName)).byteValue();
 		}
-		if(parameter.getType().equals(Byte.class)) {
+		if (parameter.getType().equals(Byte.class)) {
 			return new Byte(request.getParameter(parameterName));
 		}
-		
-		//其他类
+
+		// 其他类
 		return null;
 	}
 

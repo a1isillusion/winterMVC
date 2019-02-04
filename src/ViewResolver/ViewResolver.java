@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletResponse;
 import ModelAndView.ModelAndView;
 
 public interface ViewResolver {
-public void route(HttpServletRequest request,HttpServletResponse response,ModelAndView mav) throws Exception;
+	public void route(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) throws Exception;
 }
